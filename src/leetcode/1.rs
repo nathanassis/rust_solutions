@@ -1,27 +1,28 @@
-// Two Sum
-// Solution 1
-// 12 ms - 2.25 mb
+// https://leetcode.com/problems/two-sum
 
-struct Solution {}
+struct Solution;
 
 impl Solution {
-    pub fn two_sum(&self, nums: Vec<i32>, target: i32) -> Vec<i32> {
-        let mut index = 0;
-        let mut target_index = usize::MAX;
-
-        while index < nums.len() {
-            target_index = nums[index+1..]
-                .iter()
-                .position(|&x| target - nums[index] == x)
-                .unwrap_or(usize::MAX);
-
-            if target_index != usize::MAX {
-                break;
+    pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        impl Solution {
+            pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+                let mut hm:std::collections::HashMap<i32,i32> = std::collections::HashMap::<i32,i32>::new();
+                hm.insert(nums[0],0);
+                for i in 1..nums.len() {
+                    let c = nums[i];
+                    let req = target - c;
+                    if hm.contains_key(&req) {
+                        let idx = match hm.get(&req) {
+                            Some(x) => x,
+                            None => &999
+                        };
+                        return vec![i as i32,*idx as i32];
+                    }
+                    hm.insert(c,i as i32);
+                }
+                return vec![];
             }
-            index += 1;
         }
-
-        [index as i32, (1 + index + target_index) as i32].to_vec()
     }
 }
 
